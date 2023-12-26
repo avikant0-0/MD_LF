@@ -1,4 +1,10 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { Dimensions } from "react-native";
 import React, { useLayoutEffect, useState } from "react";
 import All1 from "../AllScreenComponents.js/All1";
@@ -36,7 +42,7 @@ const All = ({ route, navigation }) => {
     });
   }, []);
 
-  const lol = [1, 2, 3, 4, 5];
+  const lol = [1, 2, 3, 4];
   return (
     <View>
       {/* MAKING HEADER TO DISPLAY FOUR SECTIONS ALL LOST FOUND AND POST */}
@@ -158,31 +164,43 @@ const All = ({ route, navigation }) => {
         </View>
       </View>
       <View>
-        <ScrollView style={{ height: 0.9 * Dimensions.get("window").height }}>
-          {posts.posts.map((item, idx) =>
-            activePage === "All" ? (
+        <ScrollView
+          style={
+            activePage === "Post"
+              ? {}
+              : { height: 0.9 * Dimensions.get("window").height }
+          }
+        >
+          {activePage === "All" &&
+            posts.posts.map((item, idx) => (
               <View key={idx} style={{ marginVertical: 20 }}>
                 <All1 key={idx} posts={item} />
               </View>
-            ) : null
-          )}
-          {/* {activePage === "Lost" ? (
-            <View style={{ marginVertical: 20 }}>
-              <Lost posts={posts} />
-            </View>
-          ) : null}
-          {activePage === "Found" ? (
-            <View style={{ marginVertical: 20 }}>
-              <Found posts={posts} />
-            </View>
-          ) : null} */}
-          {activePage === "Post" ? (
-            <View style={{ marginVertical: 20 }}>
-              <Post posts={posts} />
-            </View>
-          ) : null}
+            ))}
+          {activePage === "Lost" &&
+            posts.posts.map((item, idx) => (
+              <View key={idx} style={{ marginVertical: 20 }}>
+                <Lost key={idx} posts={item} />
+              </View>
+            ))}
+          {activePage === "Found" &&
+            posts.posts.map((item, idx) => (
+              <View key={idx} style={{ marginVertical: 20 }}>
+                <Found key={idx} posts={item} />
+              </View>
+            ))}
         </ScrollView>
       </View>
+
+      {activePage === "Post" && (
+        <ScrollView>
+          <KeyboardAvoidingView style={{}}>
+            <View style={{ marginVertical: 20 }}>
+              <Post />
+            </View>
+          </KeyboardAvoidingView>
+        </ScrollView>
+      )}
     </View>
   );
 };

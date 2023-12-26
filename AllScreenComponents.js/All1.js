@@ -5,7 +5,7 @@ import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 
 const All1 = ({ posts }) => {
-  console.log(posts);
+  // console.log(posts);
   // console.log(posts);
   return (
     <View
