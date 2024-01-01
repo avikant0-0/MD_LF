@@ -12,9 +12,11 @@ import { Dimensions } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
 import { createClient } from "@sanity/client";
+import ImageViewer from "react-native-image-zoom-viewer";
 import { UserType } from "../UserContext";
 const All1 = ({ posts }) => {
   const [modalVisible, setModalVisible] = useState(false);
+  const [imagevisible, setimagevisible] = useState(false);
   const { isadmin } = useContext(UserType);
   const [isnotpressed, setisnotpressed] = useState(true);
   approvepost = async () => {
@@ -39,7 +41,21 @@ const All1 = ({ posts }) => {
         console.error("Oh no, the update failed: ", err.message);
       });
   };
+  const images = [
+    {
+      // Simplest usage.
+      url: posts.imageUrl,
 
+      // width: number
+      // height: number
+      // Optional, if you know the image size, you can set the optimization performance
+
+      // You can pass props to <Image />.
+      props: {
+        // headers: ...
+      },
+    },
+  ];
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -103,10 +119,36 @@ const All1 = ({ posts }) => {
               onPress={() => setModalVisible(true)}
             >
               <Text style={styles.heading}>{posts.heading}</Text>
-              <Image
-                source={{ uri: posts.imageUrl }}
-                style={{ height: "40%", width: "100%", borderRadius: 25 }}
-              />
+              <TouchableOpacity
+                onPress={() => {
+                  console.log("ho");
+                  setimagevisible(true);
+                }}
+                style={{ height: "40%" }}
+              >
+                {imagevisible ? (
+                  <Modal visible={true} transparent={true}>
+                    <ImageViewer imageUrls={images} />
+                    <Pressable
+                      style={{
+                        position: "absolute",
+                        height: 40,
+                        width: 40,
+                        top: 60,
+                        right: 10,
+                      }}
+                      onPress={() => setimagevisible(false)}
+                    >
+                      <Text style={styles.textStyle}>X</Text>
+                    </Pressable>
+                  </Modal>
+                ) : (
+                  <Image
+                    source={{ uri: posts.imageUrl }}
+                    style={{ height: "100%", width: "100%", borderRadius: 25 }}
+                  />
+                )}
+              </TouchableOpacity>
               <Text style={styles.name}>{posts.name}</Text>
 
               <View

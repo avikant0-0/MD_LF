@@ -60,7 +60,7 @@ const Post = () => {
               Alert.alert("Desc. Too Long", "Please Explain Briefly");
             }
           }}
-          placeholder="Name"
+          placeholder="Description"
         />
 
         <View
